@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="enVasut.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="enVasutStoreContainer">
+    <EntitySet Name="enVonatok" EntityType="enVasut.Store.enVonatok" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="enMenetrendek" EntityType="enVasut.Store.enMenetrendek" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="enMegallok" EntityType="enVasut.Store.enMegallok" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="enVonatenMenetrend" EntityType="enVasut.Store.enVonatenMenetrend" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="enMegalloenMenetrend" EntityType="enVasut.Store.enMegalloenMenetrend" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_enVonatenMenetrend_enVonat" Association="enVasut.Store.FK_enVonatenMenetrend_enVonat">
+      <End Role="enVonat" EntitySet="enVonatok" />
+      <End Role="enVonatenMenetrend" EntitySet="enVonatenMenetrend" />
+    </AssociationSet>
+    <AssociationSet Name="FK_enVonatenMenetrend_enMenetrend" Association="enVasut.Store.FK_enVonatenMenetrend_enMenetrend">
+      <End Role="enMenetrend" EntitySet="enMenetrendek" />
+      <End Role="enVonatenMenetrend" EntitySet="enVonatenMenetrend" />
+    </AssociationSet>
+    <AssociationSet Name="FK_enMegalloenMenetrend_enMegallo" Association="enVasut.Store.FK_enMegalloenMenetrend_enMegallo">
+      <End Role="enMegallo" EntitySet="enMegallok" />
+      <End Role="enMegalloenMenetrend" EntitySet="enMegalloenMenetrend" />
+    </AssociationSet>
+    <AssociationSet Name="FK_enMegalloenMenetrend_enMenetrend" Association="enVasut.Store.FK_enMegalloenMenetrend_enMenetrend">
+      <End Role="enMenetrend" EntitySet="enMenetrendek" />
+      <End Role="enMegalloenMenetrend" EntitySet="enMegalloenMenetrend" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="enVonatok">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nev" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Gyartas" Type="datetime" Nullable="false" />
+    <Property Name="Vagonszam" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="enMenetrendek">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Indulas_ido" Type="datetime" Nullable="false" />
+    <Property Name="Erkezes_ido" Type="datetime" Nullable="false" />
+    <Property Name="Honnan" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Hova" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="enMegallok">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Irsz" Type="int" Nullable="false" />
+    <Property Name="Helyseg" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="enVonatenMenetrend">
+    <Key>
+      <PropertyRef Name="enVonat_Id" />
+      <PropertyRef Name="enMenetrend_Id" />
+    </Key>
+    <Property Name="enVonat_Id" Type="int" Nullable="false" />
+    <Property Name="enMenetrend_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="enMegalloenMenetrend">
+    <Key>
+      <PropertyRef Name="enMegallo_Id" />
+      <PropertyRef Name="enMenetrend_Id" />
+    </Key>
+    <Property Name="enMegallo_Id" Type="int" Nullable="false" />
+    <Property Name="enMenetrend_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_enVonatenMenetrend_enVonat">
+    <End Role="enVonat" Type="enVasut.Store.enVonatok" Multiplicity="1" />
+    <End Role="enVonatenMenetrend" Type="enVasut.Store.enVonatenMenetrend" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="enVonat">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="enVonatenMenetrend">
+        <PropertyRef Name="enVonat_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_enVonatenMenetrend_enMenetrend">
+    <End Role="enVonatenMenetrend" Type="enVasut.Store.enVonatenMenetrend" Multiplicity="*" />
+    <End Role="enMenetrend" Type="enVasut.Store.enMenetrendek" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="enMenetrend">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="enVonatenMenetrend">
+        <PropertyRef Name="enMenetrend_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_enMegalloenMenetrend_enMegallo">
+    <End Role="enMegallo" Type="enVasut.Store.enMegallok" Multiplicity="1" />
+    <End Role="enMegalloenMenetrend" Type="enVasut.Store.enMegalloenMenetrend" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="enMegallo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="enMegalloenMenetrend">
+        <PropertyRef Name="enMegallo_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_enMegalloenMenetrend_enMenetrend">
+    <End Role="enMegalloenMenetrend" Type="enVasut.Store.enMegalloenMenetrend" Multiplicity="*" />
+    <End Role="enMenetrend" Type="enVasut.Store.enMenetrendek" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="enMenetrend">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="enMegalloenMenetrend">
+        <PropertyRef Name="enMenetrend_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="enVasut" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="cnVasut" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="enVonatok" EntityType="enVasut.enVonat" />
+          <EntitySet Name="enMenetrendek" EntityType="enVasut.enMenetrend" />
+          <AssociationSet Name="enVonatenMenetrend" Association="enVasut.enVonatenMenetrend">
+            <End Role="enVonat" EntitySet="enVonatok" />
+            <End Role="enMenetrend" EntitySet="enMenetrendek" />
+          </AssociationSet>
+          <EntitySet Name="enMegallok" EntityType="enVasut.enMegallo" />
+          <AssociationSet Name="enMegalloenMenetrend" Association="enVasut.enMegalloenMenetrend">
+            <End Role="enMegallo" EntitySet="enMegallok" />
+            <End Role="enMenetrend" EntitySet="enMenetrendek" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="enVonat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nev" Type="String" Nullable="false" />
+          <Property Name="Gyartas" Type="DateTime" Nullable="false" />
+          <Property Name="Vagonszam" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="enMenetrend" Relationship="enVasut.enVonatenMenetrend" FromRole="enVonat" ToRole="enMenetrend" />
+        </EntityType>
+        <EntityType Name="enMenetrend">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Indulas_ido" Type="DateTime" Nullable="false" />
+          <Property Name="Erkezes_ido" Type="DateTime" Nullable="false" />
+          <Property Name="Honnan" Type="String" Nullable="false" />
+          <Property Name="Hova" Type="String" Nullable="false" />
+          <NavigationProperty Name="enVonat" Relationship="enVasut.enVonatenMenetrend" FromRole="enMenetrend" ToRole="enVonat" />
+          <NavigationProperty Name="enMegallo" Relationship="enVasut.enMegalloenMenetrend" FromRole="enMenetrend" ToRole="enMegallo" />
+        </EntityType>
+        <Association Name="enVonatenMenetrend">
+          <End Type="enVasut.enVonat" Role="enVonat" Multiplicity="*" />
+          <End Type="enVasut.enMenetrend" Role="enMenetrend" Multiplicity="*" />
+        </Association>
+        <EntityType Name="enMegallo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Irsz" Type="Int32" Nullable="false" />
+          <Property Name="Helyseg" Type="String" Nullable="false" />
+          <NavigationProperty Name="enMenetrend" Relationship="enVasut.enMegalloenMenetrend" FromRole="enMegallo" ToRole="enMenetrend" />
+        </EntityType>
+        <Association Name="enMegalloenMenetrend">
+          <End Type="enVasut.enMegallo" Role="enMegallo" Multiplicity="*" />
+          <End Type="enVasut.enMenetrend" Role="enMenetrend" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="enVasutStoreContainer" CdmEntityContainer="cnVasut">
+    <EntitySetMapping Name="enVonatok">
+      <EntityTypeMapping TypeName="IsTypeOf(enVasut.enVonat)">
+        <MappingFragment StoreEntitySet="enVonatok">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nev" ColumnName="Nev" />
+          <ScalarProperty Name="Gyartas" ColumnName="Gyartas" />
+          <ScalarProperty Name="Vagonszam" ColumnName="Vagonszam" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="enMenetrendek">
+      <EntityTypeMapping TypeName="IsTypeOf(enVasut.enMenetrend)">
+        <MappingFragment StoreEntitySet="enMenetrendek">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Indulas_ido" ColumnName="Indulas_ido" />
+          <ScalarProperty Name="Erkezes_ido" ColumnName="Erkezes_ido" />
+          <ScalarProperty Name="Honnan" ColumnName="Honnan" />
+          <ScalarProperty Name="Hova" ColumnName="Hova" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="enMegallok">
+      <EntityTypeMapping TypeName="IsTypeOf(enVasut.enMegallo)">
+        <MappingFragment StoreEntitySet="enMegallok">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Irsz" ColumnName="Irsz" />
+          <ScalarProperty Name="Helyseg" ColumnName="Helyseg" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="enVonatenMenetrend" TypeName="enVasut.enVonatenMenetrend" StoreEntitySet="enVonatenMenetrend">
+      <EndProperty Name="enVonat">
+        <ScalarProperty Name="Id" ColumnName="enVonat_Id" />
+      </EndProperty>
+      <EndProperty Name="enMenetrend">
+        <ScalarProperty Name="Id" ColumnName="enMenetrend_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="enMegalloenMenetrend" TypeName="enVasut.enMegalloenMenetrend" StoreEntitySet="enMegalloenMenetrend">
+      <EndProperty Name="enMegallo">
+        <ScalarProperty Name="Id" ColumnName="enMegallo_Id" />
+      </EndProperty>
+      <EndProperty Name="enMenetrend">
+        <ScalarProperty Name="Id" ColumnName="enMenetrend_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

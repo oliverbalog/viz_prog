@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="enVasut" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="cnVasut" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="enVonatok" EntityType="enVasut.enVonat" />
+    <EntitySet Name="enMenetrendek" EntityType="enVasut.enMenetrend" />
+    <AssociationSet Name="enVonatenMenetrend" Association="enVasut.enVonatenMenetrend">
+      <End Role="enVonat" EntitySet="enVonatok" />
+      <End Role="enMenetrend" EntitySet="enMenetrendek" />
+    </AssociationSet>
+    <EntitySet Name="enMegallok" EntityType="enVasut.enMegallo" />
+    <AssociationSet Name="enMegalloenMenetrend" Association="enVasut.enMegalloenMenetrend">
+      <End Role="enMegallo" EntitySet="enMegallok" />
+      <End Role="enMenetrend" EntitySet="enMenetrendek" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="enVonat">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nev" Type="String" Nullable="false" />
+    <Property Name="Gyartas" Type="DateTime" Nullable="false" />
+    <Property Name="Vagonszam" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="enMenetrend" Relationship="enVasut.enVonatenMenetrend" FromRole="enVonat" ToRole="enMenetrend" />
+  </EntityType>
+  <EntityType Name="enMenetrend">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Indulas_ido" Type="DateTime" Nullable="false" />
+    <Property Name="Erkezes_ido" Type="DateTime" Nullable="false" />
+    <Property Name="Honnan" Type="String" Nullable="false" />
+    <Property Name="Hova" Type="String" Nullable="false" />
+    <NavigationProperty Name="enVonat" Relationship="enVasut.enVonatenMenetrend" FromRole="enMenetrend" ToRole="enVonat" />
+    <NavigationProperty Name="enMegallo" Relationship="enVasut.enMegalloenMenetrend" FromRole="enMenetrend" ToRole="enMegallo" />
+  </EntityType>
+  <Association Name="enVonatenMenetrend">
+    <End Type="enVasut.enVonat" Role="enVonat" Multiplicity="*" />
+    <End Type="enVasut.enMenetrend" Role="enMenetrend" Multiplicity="*" />
+  </Association>
+  <EntityType Name="enMegallo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Irsz" Type="Int32" Nullable="false" />
+    <Property Name="Helyseg" Type="String" Nullable="false" />
+    <NavigationProperty Name="enMenetrend" Relationship="enVasut.enMegalloenMenetrend" FromRole="enMegallo" ToRole="enMenetrend" />
+  </EntityType>
+  <Association Name="enMegalloenMenetrend">
+    <End Type="enVasut.enMegallo" Role="enMegallo" Multiplicity="*" />
+    <End Type="enVasut.enMenetrend" Role="enMenetrend" Multiplicity="*" />
+  </Association>
+</Schema>

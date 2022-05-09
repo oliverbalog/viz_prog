@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="enVasutStoreContainer" CdmEntityContainer="cnVasut">
+    <EntitySetMapping Name="enVonatok">
+      <EntityTypeMapping TypeName="IsTypeOf(enVasut.enVonat)">
+        <MappingFragment StoreEntitySet="enVonatok">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nev" ColumnName="Nev" />
+          <ScalarProperty Name="Gyartas" ColumnName="Gyartas" />
+          <ScalarProperty Name="Vagonszam" ColumnName="Vagonszam" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="enMenetrendek">
+      <EntityTypeMapping TypeName="IsTypeOf(enVasut.enMenetrend)">
+        <MappingFragment StoreEntitySet="enMenetrendek">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Indulas_ido" ColumnName="Indulas_ido" />
+          <ScalarProperty Name="Erkezes_ido" ColumnName="Erkezes_ido" />
+          <ScalarProperty Name="Honnan" ColumnName="Honnan" />
+          <ScalarProperty Name="Hova" ColumnName="Hova" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="enMegallok">
+      <EntityTypeMapping TypeName="IsTypeOf(enVasut.enMegallo)">
+        <MappingFragment StoreEntitySet="enMegallok">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Irsz" ColumnName="Irsz" />
+          <ScalarProperty Name="Helyseg" ColumnName="Helyseg" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="enVonatenMenetrend" TypeName="enVasut.enVonatenMenetrend" StoreEntitySet="enVonatenMenetrend">
+      <EndProperty Name="enVonat">
+        <ScalarProperty Name="Id" ColumnName="enVonat_Id" />
+      </EndProperty>
+      <EndProperty Name="enMenetrend">
+        <ScalarProperty Name="Id" ColumnName="enMenetrend_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="enMegalloenMenetrend" TypeName="enVasut.enMegalloenMenetrend" StoreEntitySet="enMegalloenMenetrend">
+      <EndProperty Name="enMegallo">
+        <ScalarProperty Name="Id" ColumnName="enMegallo_Id" />
+      </EndProperty>
+      <EndProperty Name="enMenetrend">
+        <ScalarProperty Name="Id" ColumnName="enMenetrend_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>
